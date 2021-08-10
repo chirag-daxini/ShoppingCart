@@ -22,15 +22,20 @@ namespace ShoppingCart.Services
         }
         public async Task BuildInventoryAsync()
         {
-            Product appleProduct = new Product("Apple", 20, ProductType.Vegetables, 0.20f);
+            Product appleProduct = new Product("Apple", 100, ProductType.Vegetables, 0.20f);
             var appleOffers = await _productOfferService.RetriveProductOfferAsync(appleProduct.ProductId);
             appleProduct.Offers.AddRange(appleOffers);
             _inventory.Products.Add(appleProduct);
 
-            var bananaProduct = new Product("Banana", 10, ProductType.Vegetables, 0.50f);
+            var bananaProduct = new Product("Banana", 150, ProductType.Vegetables, 0.50f);
             var bananaOffers = await _productOfferService.RetriveProductOfferAsync(bananaProduct.ProductId);
             bananaProduct.Offers.AddRange(bananaOffers);
             _inventory.Products.Add(bananaProduct);
+
+            var mangoProduct = new Product("Mangoes", 200, ProductType.Vegetables, 1.50f);
+            var mangoOffers = await _productOfferService.RetriveProductOfferAsync(mangoProduct.ProductId);
+            bananaProduct.Offers.AddRange(mangoOffers);
+            _inventory.Products.Add(mangoProduct);
         }
 
         public async Task<IList<Product>> GetProductsAsync()

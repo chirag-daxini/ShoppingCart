@@ -9,9 +9,13 @@ namespace ShoppingCart.Models
 
         public override string ToString()
         {
-            var products = string.Join(",", Items.Select(item => item.ProductName));
-            var totalPrice = Items.Sum(item => item.Price);
-            return $"[{products} => {totalPrice}]";
+            if (Items.Any())
+            {
+                var products = string.Join(",", Items.Select(item => item.ProductName));
+                var totalPrice = Items.Sum(item => item.Price);
+                return $"[{products} => {totalPrice:C}]";
+            }
+            return string.Empty;
         }
     }
 }

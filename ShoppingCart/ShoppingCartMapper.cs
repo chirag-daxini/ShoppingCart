@@ -8,7 +8,6 @@ namespace ShoppingCart
         public ShoppingCartMapper()
         {
             CreateMap<Product, CartItem>()
-                .ForMember(dest => dest.Price, src => src.MapFrom(s => s.ProductPrice))
                 .ForMember(dest => dest.ProductName, src => src.MapFrom(s => s.Name));
         }
     }

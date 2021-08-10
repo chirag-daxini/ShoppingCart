@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using ShoppingCart.Models;
 using ShoppingCart.Services;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace ShoppingCart
@@ -15,6 +16,8 @@ namespace ShoppingCart
 
         private static IHostBuilder CreateHostBuilder(string[] args)
         {
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-GB");
+
             return Host.CreateDefaultBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {
@@ -25,6 +28,7 @@ namespace ShoppingCart
                     services.AddSingleton(typeof(Inventory));
                     services.AddSingleton(typeof(Cart));
                     services.AddAutoMapper(typeof(Program).Assembly);
+                    services.Configure<ConsoleLifetimeOptions>(options => options.SuppressStatusMessages = true);
                 });
         }
     }

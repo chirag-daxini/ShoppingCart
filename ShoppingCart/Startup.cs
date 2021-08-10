@@ -26,7 +26,7 @@ namespace ShoppingCart
 
             Console.WriteLine("Welcome to Online Shopping");
 
-            Console.WriteLine("Following products are available today. To exit from application please enter 's'");
+            Console.WriteLine("Following products are available today.");
 
             var products = await _inventoryService.GetProductsAsync();
 
@@ -58,7 +58,9 @@ namespace ShoppingCart
                         Console.WriteLine("Adding Product into cart....");
 
                         var cartItem = _mapper.Map<CartItem>(objProduct);
+
                         cartItem.Quantity = productQuantity;
+                        cartItem.Price = objProduct.ProductPrice * productQuantity;
 
                         objProduct.AvailableStock.AvailableQuantity = objProduct.AvailableStock.AvailableQuantity - productQuantity;
 
