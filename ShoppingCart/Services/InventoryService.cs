@@ -1,4 +1,5 @@
 ﻿using ShoppingCart.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,6 +11,8 @@ namespace ShoppingCart.Services
         Task<IList<Product>> GetProductsAsync();
 
         Task<Product> GetProductAsync(int productId, int quantity);
+
+        Task<Product> GetProductAsync(Guid productId);
     }
     public class InventoryService : IInventoryService
     {
@@ -22,19 +25,16 @@ namespace ShoppingCart.Services
         }
         public async Task BuildInventoryAsync()
         {
-            Product appleProduct = new Product("Apple", 100, ProductType.Vegetables, 0.20f);
-            var appleOffers = await _productOfferService.RetriveProductOfferAsync(appleProduct.ProductId);
-            appleProduct.Offers.AddRange(appleOffers);
+            Product appleProduct = new Product("Apple", 100, ProductType.Vegetables, 0.20m);
+            appleProduct.Offer = new Offer() { Description = "Buy1Get1Free", OfferStratergy = OfferType.QuantityDiscount };
             _inventory.Products.Add(appleProduct);
 
-            var bananaProduct = new Product("Banana", 150, ProductType.Vegetables, 0.50f);
-            var bananaOffers = await _productOfferService.RetriveProductOfferAsync(bananaProduct.ProductId);
-            bananaProduct.Offers.AddRange(bananaOffers);
+            var bananaProduct = new Product("Banana", 150, ProductType.Vegetables, 0.50m);
+            bananaProduct.Offer = new Offer() { Description = "Buy1Get1Free", OfferStratergy = OfferType.QuantityDiscount };
             _inventory.Products.Add(bananaProduct);
 
-            var mangoProduct = new Product("Mangoes", 200, ProductType.Vegetables, 1.50f);
-            var mangoOffers = await _productOfferService.RetriveProductOfferAsync(mangoProduct.ProductId);
-            bananaProduct.Offers.AddRange(mangoOffers);
+            var mangoProduct = new Product("Mangoes", 200, ProductType.Vegetables, 1.50m);
+            mangoProduct.Offer = new Offer() { Description = "Buy2AtDiscountedRate", OfferStratergy = OfferType.PriceDiscount, DiscountedPercentage = 33 };
             _inventory.Products.Add(mangoProduct);
         }
 
@@ -48,6 +48,12 @@ namespace ShoppingCart.Services
             var enteredProduct = _inventory[productId - 1];
 
             return (enteredProduct != null && enteredProduct.AvailableStock.AvailableQuantity > quantity) ? enteredProduct : null;
+        }
+
+        public async Task<Product> GetProductAsync(Guid productId)
+        {
+            var product = _inventory[productId];
+            return product;
         }
     }
 }

@@ -4,7 +4,7 @@ namespace ShoppingCart.Models
 {
     public class Stock
     {
-        public Guid StockId => Guid.NewGuid();
+        public Guid StockId { get; private set; } = Guid.NewGuid();
 
         public Guid ProductId { get; private set; }
 

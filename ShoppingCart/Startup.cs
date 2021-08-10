@@ -55,8 +55,6 @@ namespace ShoppingCart
                     var objProduct = await _inventoryService.GetProductAsync(productId, productQuantity);
                     if (objProduct != null)
                     {
-                        Console.WriteLine("Adding Product into cart....");
-
                         var cartItem = _mapper.Map<CartItem>(objProduct);
 
                         cartItem.Quantity = productQuantity;
@@ -65,6 +63,8 @@ namespace ShoppingCart
                         objProduct.AvailableStock.AvailableQuantity = objProduct.AvailableStock.AvailableQuantity - productQuantity;
 
                         await _checkOutService.AddProductToCartAsync(cartItem);
+
+                        await _checkOutService.ApplyDiscounts();
 
                         Console.WriteLine($"Product {objProduct.Name} added to the cart");
                     }

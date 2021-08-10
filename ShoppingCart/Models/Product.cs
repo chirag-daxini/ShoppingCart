@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace ShoppingCart.Models
 {
     public class Product
     {
-        public Guid ProductId => Guid.NewGuid();
+        public Guid ProductId { get; private set; } = Guid.NewGuid();
 
         public string Name { get; private set; }
 
@@ -14,10 +13,10 @@ namespace ShoppingCart.Models
         public Stock AvailableStock { get; private set; }
         public ProductType Type { get; private set; }
 
-        public float ProductPrice { get; private set; }
+        public decimal ProductPrice { get; set; }
 
-        public List<Offer> Offers { get; set; } = new List<Offer>();
-        public Product(string description, int totalQuantity, ProductType productType, float price)
+        public Offer Offer { get; set; }
+        public Product(string description, int totalQuantity, ProductType productType, decimal price)
         {
             AvailableStock = new Stock(ProductId, totalQuantity);
             Name = Description = description;
